@@ -1,0 +1,51 @@
+<div fxLayoutGap="20px" fxLayout="column">
+
+  <mat-card>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Enter a word" [(ngModel)]="searchValue" (keyup.enter)="search()">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="search()">Search</button>
+  </mat-card>
+  <mat-card *ngIf="viewObj.length === 0">
+    <mat-card-header>
+      <mat-card-subtitle>Empty</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <mat-card *ngFor="let item of viewObj">
+    <mat-card-header>
+      <mat-card-title>{{item.lang}} - {{item.word}}</mat-card-title>
+      <mat-card-subtitle> {{item.fl}}</mat-card-subtitle>
+    </mat-card-header>
+  <mat-card-content>
+    <div>
+      <span *ngIf="item.soundUrls.length > 0">
+        <span *ngFor="let item of item.soundUrls">
+          <audio controls>
+            <source src="{{item}}" type="audio/mpeg">
+          </audio>
+        </span>
+      </span>
+      <mat-divider></mat-divider>
+      <h4>Short defenitions</h4>
+      <ul *ngFor="let def of item.shortDef">
+        <li>{{def}}</li>
+      </ul>
+        <!-- {{item.shortDef}} -->
+      <br>
+    </div>
+    <mat-divider></mat-divider>
+    <h4>Defenotions with example and translation (if exist)</h4>
+    <span *ngFor="let variant of item.def.variants.simple">
+      <ul *ngFor="let i of variant">
+        <li>{{i}},</li>
+      </ul>
+    </span>
+    <span *ngFor="let variant of item.def.variants.translated">
+      <ul *ngFor="let i of variant">
+        <li>{{i.t}} - <b>{{i.tr}}</b></li>
+      </ul>
+    </span>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  </mat-card>
+</div>
